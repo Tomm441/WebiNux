@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --LargeurMenuOuvert: 12rem;
+  --LargeurMenuReduit: 3.5rem;
+  --DureeTransition: 0.3s;
+  --DureeTransitionRapide: 0.1s;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  height: 94vh;
+  margin-left: 3.5rem;
+  padding: 15px;
+  background-color: rgb(247, 247, 247);
+  overflow: "auto";
+  transition: all 0.3s ease-in-out;
+}
+
+header:hover + main {
+  margin-left: var(--LargeurMenuOuvert);
+}
+
+header {
+  transition: all 0.3s ease-in-out;
+  display: flex; 
+  flex-direction: column; 
+  height: 100%; 
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  width: 3.5rem; 
+  padding-top: 0.5rem; 
+  padding-bottom: 0.5rem; 
+  border-right: 1px solid black; 
+  background-color: #B8D8B8; 
+  z-index: 10;
+}
+
+header:hover {
+  width: var(--LargeurMenuOuvert); 
+}
+
+header:hover .menu-texte {
+  color: #284b63;
+  opacity: 1 !important;
+  transition: opacity 0.6s ease-in-out;
+}
+
+.lien-menu {
+  padding-left: 0.75rem;
+  display: flex;
+  transition: all var(--DureeTransition) ease-in-out;
+}
+.lien-menu:hover {
+  padding-left: 0.75rem;
+  opacity: 0.6;
+  transform: scale(1.05);
+  transition: all var(--DureeTransition) ease-in-out;
+}
+
+.menu-texte {
+  padding-left: 0.5rem;
+  opacity: 0;
+  width: 0px;
+  align-self: center;
+  text-align: right;
+  transition: opacity var(--DureeTransitionRapide) ease-in-out;
+}
+
+i {
+  opacity: 0;
+}

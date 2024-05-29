@@ -1,0 +1,154 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table Account {
+  id String [pk]
+  userId String [not null]
+  type String [not null]
+  provider String [not null]
+  providerAccountId String [not null]
+  refresh_token String
+  access_token String
+  expires_at Int
+  token_type String
+  scope String
+  id_token String
+  session_state String
+  user User [not null]
+
+  indexes {
+    (provider, providerAccountId) [unique]
+  }
+}
+
+Table Session {
+  id String [pk]
+  sessionToken String [unique, not null]
+  userId String [not null]
+  expires DateTime [not null]
+  user User [not null]
+}
+
+Table User {
+  id String [pk]
+  name String
+  email String [unique]
+  emailVerified DateTime
+  image String
+  accounts Account [not null]
+  sessions Session [not null]
+}
+
+Table VerificationToken {
+  identifier String [not null]
+  token String [unique, not null]
+  expires DateTime [not null]
+
+  indexes {
+    (identifier, token) [unique]
+  }
+}
+
+Table TypeDistribution {
+  noTypeDistribution String [pk]
+  nom String [unique, not null]
+  description String [not null]
+  Serveur Serveur [not null]
+}
+
+Table Serveur {
+  noServeur String [pk]
+  ip String [not null]
+  nom String [not null]
+  description String
+  portSSH Int [not null]
+  noTypeDistributionFK String [not null]
+  noIdentifiantFK String [not null]
+  automatisationServeur automatisationServeur [not null]
+  serveurGroupe serveurGroupe [not null]
+  typeDistribution TypeDistribution [not null]
+  Identifiant Identifiant
+}
+
+Table Identifiant {
+  noIdentifiant String [pk]
+  nomIdentifiant String [not null]
+  nomUtilisateur String [not null]
+  motDePasse String
+  cleSSH String [not null]
+  serveur Serveur [not null]
+}
+
+Table CleChiffrement {
+  noCleChiffrement String [pk]
+  clePrivee String [not null]
+  clePublique String [not null]
+}
+
+Table serveurGroupe {
+  noServeurGroupe String [pk]
+  noGroupeFK String [not null]
+  noServeurFK String [not null]
+  groupe groupe [not null]
+  serveur Serveur [not null]
+}
+
+Table groupe {
+  noGroupe String [pk]
+  nom String [not null]
+  description String [not null]
+  serveurGroupe serveurGroupe [not null]
+  automatisationGroupe automatisationGroupe [not null]
+}
+
+Table automatisationGroupe {
+  noAutomatisationGroupe String [pk]
+  nogroupeFK String [not null]
+  noAutomatisationFK String [not null]
+  groupe groupe [not null]
+  automatisation automatisation [not null]
+}
+
+Table automatisationServeur {
+  noAutomatisationServeur String [pk]
+  noAutomatisationFK String [not null]
+  noServeurFK String [not null]
+  automatisation automatisation [not null]
+  serveur Serveur [not null]
+}
+
+Table automatisation {
+  noAutomatisation String [pk]
+  nom String [not null]
+  description String
+  admin Boolean [not null, default: false]
+  script String [not null]
+  cronMinute String [not null]
+  cronHeure String [not null]
+  cronJour String [not null]
+  cronMois String [not null]
+  cronJourSemaine String [not null]
+  automatisationGroupe automatisationGroupe [not null]
+  automatisationServeur automatisationServeur [not null]
+}
+
+Ref: Account.userId > User.id [delete: Cascade]
+
+Ref: Session.userId > User.id [delete: Cascade]
+
+Ref: Serveur.noTypeDistributionFK > TypeDistribution.noTypeDistribution [delete: Cascade]
+
+Ref: Serveur.noIdentifiantFK > Identifiant.noIdentifiant
+
+Ref: serveurGroupe.noGroupeFK > groupe.noGroupe [delete: Cascade]
+
+Ref: serveurGroupe.noServeurFK > Serveur.noServeur [delete: Cascade]
+
+Ref: automatisationGroupe.nogroupeFK > groupe.noGroupe [delete: Cascade]
+
+Ref: automatisationGroupe.noAutomatisationFK > automatisation.noAutomatisation [delete: Cascade]
+
+Ref: automatisationServeur.noAutomatisationFK > automatisation.noAutomatisation [delete: Cascade]
+
+Ref: automatisationServeur.noServeurFK > Serveur.noServeur [delete: Cascade]
