@@ -40,7 +40,7 @@ Vous aurez besoin :
 Pour démarer le serveur de développement, exécutez :
 
 ```bash
-bun dev
+bun run dev
 ```
 
 Ouvrez [http://localhost:3000](http://localhost:3000) avec votre navigateur pour voir le résultat.
